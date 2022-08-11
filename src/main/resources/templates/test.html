@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+
+<div>
+    <form >
+        <input id="string" type="text" placeholder="string" >
+        <br>
+        <input id="int" type="number" placeholder="int">
+        <br>
+        <input id="date" type="date">
+        <br>
+        <button id="but1"  onclick="addtype()">Submit</button>
+    </form>
+</div>
+
+<script>
+function addtype(){
+
+let str = document.getElementById("string").value;
+let anint = document.getElementById("int").value;
+
+sendRequest('POST', 'http://localhost:8080/Home/addtype', {
+string: str,
+anInt: anint
+} ).catch(err => console.log(err))
+
+alert("Successful!");
+}
+
+
+function sendRequest(method, url, body = null) {
+
+alert("send request!");
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+
+    xhr.open(method, url)
+
+    xhr.responseType = 'json'
+    xhr.setRequestHeader('Content-Type', 'application/json')
+
+    xhr.onload = () => {
+        resolve(xhr.response)
+      }
+
+    xhr.onerror = () => {
+      resolve(xhr.response)
+    }
+
+    xhr.send(JSON.stringify(body))
+
+     alert("Request has sended!");
+  })
+
+
+}
+
+</script>
+<div>
+    <button onclick="getcars()">Get cars</button>
+</div>
+<script>
+function getcars(){
+    fetch("http://localhost:8080/Home/cars/all")
+    .then(response => response.text())
+    .then(store => console.log(store));
+    }
+</script>
+
+<!--<script>-->
+<!--function sendRequest(method, url, body = null) {-->
+
+<!--alert("send request!");-->
+<!--  return new Promise((resolve, reject) => {-->
+<!--    const xhr = new XMLHttpRequest()-->
+
+<!--    xhr.open(method, url)-->
+
+<!--    xhr.responseType = 'json'-->
+<!--    xhr.setRequestHeader('Content-Type', 'application/json')-->
+
+<!--    xhr.onload = () => {-->
+<!--        resolve(xhr.response)-->
+<!--      }-->
+
+<!--    xhr.onerror = () => {-->
+<!--      resolve(xhr.response)-->
+<!--    }-->
+
+<!--    xhr.send(JSON.stringify(body))-->
+
+<!--     alert("Request has sended!");-->
+<!--  })-->
+
+
+<!--}-->
+
+<!--    function gettype(){-->
+<!--    sendRequest("GET", "http://localhost:8080/Home/cars/all").catch(err => console.log(err))-->
+<!--    alert("Get data!");-->
+<!--    }-->
+<!--</script>-->
+
+</body>
+
+</html>
